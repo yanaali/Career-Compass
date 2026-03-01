@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+a { @apply underline-offset-4; }
+
+html { scroll-behavior: smooth; }
+
+
+
+:root {
+  --cc-link: #2563eb;
+}
+.dark {
+  color-scheme: dark;
+  --cc-link: #60a5fa;
+}
+
+a { color: var(--cc-link); }
+a:hover { filter: brightness(0.95); }
