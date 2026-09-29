@@ -4,6 +4,8 @@
 
 :root {
   color-scheme: light;
+  --cc-link: #c9590f;
+  --cc-accent: #f5991f;
 }
 
 * { -webkit-tap-highlight-color: transparent; }
@@ -12,15 +14,16 @@ a { @apply underline-offset-4; }
 
 html { scroll-behavior: smooth; }
 
-
-
-:root {
-  --cc-link: #2563eb;
-}
 .dark {
   color-scheme: dark;
-  --cc-link: #60a5fa;
+  --cc-link: #f5991f;
+  --cc-accent: #f9b34d;
 }
 
 a { color: var(--cc-link); }
-a:hover { filter: brightness(0.95); }
+a:hover { filter: brightness(1.1); }
+
+/* Cozy background pattern */
+body {
+  @apply bg-gradient-cozy dark:bg-gradient-cozy-dark;
+}

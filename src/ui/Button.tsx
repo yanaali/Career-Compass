@@ -11,12 +11,12 @@ export function Button({
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   const styles =
     variant === "primary"
-      ? "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+      ? "bg-amber-600 text-white hover:bg-amber-700 dark:bg-amber-500 dark:text-slate-950 dark:hover:bg-amber-400"
       : variant === "secondary"
-        ? "bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+        ? "bg-sage-100 text-sage-900 hover:bg-sage-200 dark:bg-slate-700 dark:text-amber-50 dark:hover:bg-slate-600"
         : variant === "danger"
-          ? "bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600"
-          : "bg-transparent hover:bg-slate-50 dark:hover:bg-slate-900/50";
+          ? "bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:text-white dark:hover:bg-red-400"
+          : "bg-transparent text-slate-700 hover:bg-amber-100 dark:text-slate-100 dark:hover:bg-slate-700";
 
   return (
     <button

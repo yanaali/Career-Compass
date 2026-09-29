@@ -33,18 +33,43 @@ Reply to: ${data.email}`);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 md:items-start">
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold tracking-tight dark:text-slate-50">Contact</h2>
-        <p className="text-slate-600 dark:text-slate-300">
-          Want to connect? Whether it’s collaboration, opportunities, or feedback on Career Compass, feel free to reach out. I read every message.
-        </p>
-<Card className="mt-4">
-          <div className="text-sm font-medium dark:text-slate-100">A quick note</div>
-          <ul className="pt-2 space-y-1 text-sm text-slate-600 dark:text-slate-300">
-            <li>• This form opens your email client with a pre-filled message for speed.</li>
-            <li>• If you deploy a server endpoint, add rate limiting and spam protection.</li>
-            <li>• If you want, you can also add analytics to learn what visitors care about.</li>
-          </ul>
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-semibold tracking-tight text-amber-900 dark:text-amber-100">Contact</h2>
+          <p className="text-slate-600 dark:text-slate-300">
+            Want to connect? Whether it's collaboration, opportunities, or feedback on Career Compass, feel free to reach out.
+          </p>
+        </div>
+
+        <Card className="p-6 bg-gradient-to-br from-amber-50 to-sage-50 dark:from-slate-900 dark:to-slate-800">
+          <div className="space-y-4">
+            <div className="text-center">
+              <div className="text-5xl mb-3 flex justify-center gap-3">✍️ 📚 🎯</div>
+              <div className="text-sm font-semibold text-amber-900 dark:text-amber-100">Let's work together</div>
+              <p className="text-xs text-slate-600 dark:text-slate-300 pt-2">
+                Have ideas for features, bugs to report, or just want to chat about career development? I'd love to hear from you.
+              </p>
+            </div>
+            
+            <div className="pt-2 space-y-2 border-t border-amber-200 dark:border-slate-700">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-lg">💼</span>
+                <span className="text-slate-600 dark:text-slate-300">Feedback on features</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-lg">🐛</span>
+                <span className="text-slate-600 dark:text-slate-300">Bug reports & fixes</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-lg">🤝</span>
+                <span className="text-slate-600 dark:text-slate-300">Collaboration opportunities</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-lg">⭐</span>
+                <span className="text-slate-600 dark:text-slate-300">General questions & ideas</span>
+              </div>
+            </div>
+          </div>
         </Card>
       </div>
 

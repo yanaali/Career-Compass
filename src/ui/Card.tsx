@@ -8,5 +8,14 @@ export function Card({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={cn("rounded-2xl border bg-white dark:bg-slate-950 dark:border-slate-800 p-5 shadow-soft transition hover:shadow-lg hover:-translate-y-[1px]", className)}>{children}</div>;
+  return (
+    <div
+      className={cn(
+        "rounded-2xl border border-amber-200 bg-white/90 p-5 shadow-soft transition hover:-translate-y-[1px] hover:border-amber-300 hover:shadow-warm dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:border-slate-600",
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
 }

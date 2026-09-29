@@ -12,7 +12,7 @@ export function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-semibold tracking-tight dark:text-slate-50">Dashboard</h2>
+        <h2 className="text-2xl font-semibold tracking-tight text-amber-900 dark:text-amber-100">Dashboard</h2>
         <p className="text-slate-600 dark:text-slate-300">Your daily workspace for focus and applications.</p>
       </div>
 
@@ -34,9 +34,12 @@ function TasksPanel() {
   return (
     <Card className="lg:col-span-1">
       <div className="flex items-center justify-between">
-        <div>
-          <div className="font-semibold dark:text-slate-100">Tasks</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400">{remaining} remaining</div>
+        <div className="flex items-center gap-2">
+          <span className="text-xl">✓</span>
+          <div>
+            <div className="font-semibold text-amber-900 dark:text-amber-100">Tasks</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">{remaining} remaining</div>
+          </div>
         </div>
         <Button variant="ghost" onClick={clearDone} disabled={!tasks.some((t) => t.done)}>
           <CheckCircle2 size={16} />
@@ -70,17 +73,17 @@ function TasksPanel() {
       <div className="pt-4 space-y-2">
         {tasks.length === 0 && <div className="text-sm text-slate-500 dark:text-slate-400">No tasks yet. Add your top 3 for today.</div>}
         {tasks.map((t) => (
-          <div key={t.id} className="flex items-center justify-between gap-2 rounded-2xl border p-3">
+          <div key={t.id} className="flex items-center justify-between gap-2 rounded-2xl border border-amber-200 bg-amber-50/40 dark:border-slate-700 dark:bg-slate-800/60 p-3">
             <label className="flex flex-1 items-center gap-2">
               <input type="checkbox" checked={t.done} onChange={() => toggle(t.id)} />
               <div className="min-w-0">
-                <div className={t.done ? "truncate text-sm line-through text-slate-400" : "truncate text-sm"}>
+                <div className={t.done ? "truncate text-sm line-through text-slate-400 dark:text-slate-500" : "truncate text-sm text-amber-900 dark:text-amber-100"}>
                   {t.title}
                 </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">Created {formatDate(t.createdAt)}</div>
               </div>
             </label>
-            <button className="rounded-xl p-2 hover:bg-slate-50 dark:bg-slate-900/40" onClick={() => remove(t.id)} aria-label="Delete task">
+            <button className="rounded-xl p-2 hover:bg-amber-100 dark:hover:bg-slate-700" onClick={() => remove(t.id)} aria-label="Delete task">
               <Trash2 size={16} />
             </button>
           </div>
@@ -108,9 +111,12 @@ function PomodoroPanel() {
   return (
     <Card className="lg:col-span-1">
       <div className="flex items-center justify-between">
-        <div>
-          <div className="font-semibold dark:text-slate-100">Pomodoro</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400">Mode: {p.mode}</div>
+        <div className="flex items-center gap-2">
+          <span className="text-xl">⏱️</span>
+          <div>
+            <div className="font-semibold text-amber-900 dark:text-amber-100">Pomodoro</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">Mode: {p.mode}</div>
+          </div>
         </div>
         <Button variant="ghost" onClick={p.switchMode}>
           Switch
@@ -193,10 +199,13 @@ function ApplicationsPanel() {
   return (
     <Card className="lg:col-span-1">
       <div className="flex items-center justify-between">
-        <div>
-          <div className="font-semibold dark:text-slate-100">Applications</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400">
-            Applied {stats.Applied} • Interview {stats.Interview} • Offer {stats.Offer}
+        <div className="flex items-center gap-2">
+          <span className="text-xl">💼</span>
+          <div>
+            <div className="font-semibold text-amber-900 dark:text-amber-100">Applications</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400">
+              Applied {stats.Applied} • Interview {stats.Interview} • Offer {stats.Offer}
+            </div>
           </div>
         </div>
       </div>
@@ -250,15 +259,15 @@ function ApplicationsPanel() {
       <div className="pt-4 space-y-2">
         {items.length === 0 && <div className="text-sm text-slate-500 dark:text-slate-400">No entries yet. Add the next role you’ll apply to.</div>}
         {items.map((it) => (
-          <div key={it.id} className="rounded-2xl border p-3">
+          <div key={it.id} className="rounded-2xl border border-amber-200 bg-amber-50/40 dark:border-slate-700 dark:bg-slate-800/60 p-3">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <div className="truncate text-sm font-medium">{it.company}</div>
+                <div className="truncate text-sm font-medium text-amber-900 dark:text-amber-100">{it.company}</div>
                 <div className="truncate text-sm text-slate-600 dark:text-slate-300">{it.role}</div>
                 <div className="pt-1 text-xs text-slate-500 dark:text-slate-400">
                   Status:{" "}
                   <select
-                    className="rounded-lg border px-2 py-1"
+                    className="rounded-lg border border-amber-200 bg-white dark:bg-slate-900 dark:border-slate-700 px-2 py-1"
                     value={it.status}
                     onChange={(e) => update(it.id, { status: e.target.value as Status })}
                   >
@@ -271,14 +280,14 @@ function ApplicationsPanel() {
                 </div>
                 {it.nextFollowUp && <div className="pt-1 text-xs text-slate-500 dark:text-slate-400">Follow-up: {formatDate(it.nextFollowUp)}</div>}
                 {it.link && (
-                  <a className="pt-1 block text-xs text-slate-700 hover:underline" href={it.link} target="_blank" rel="noreferrer">
+                  <a className="pt-1 block text-xs text-amber-600 dark:text-amber-400 hover:underline" href={it.link} target="_blank" rel="noreferrer">
                     Open link
                   </a>
                 )}
                 {it.notes && <div className="pt-2 text-xs text-slate-600 dark:text-slate-300 whitespace-pre-wrap">{it.notes}</div>}
               </div>
 
-              <button className="rounded-xl p-2 hover:bg-slate-50 dark:bg-slate-900/40" onClick={() => remove(it.id)} aria-label="Delete application">
+              <button className="rounded-xl p-2 hover:bg-amber-100 dark:hover:bg-slate-700" onClick={() => remove(it.id)} aria-label="Delete application">
                 <Trash2 size={16} />
               </button>
             </div>
