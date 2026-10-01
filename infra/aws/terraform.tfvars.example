@@ -1,0 +1,9 @@
+region          = "ca-central-1"
+name            = "career-compass"
+domain_name     = "compass.example.com"
+certificate_arn = "arn:aws:acm:ca-central-1:123456789012:certificate/REPLACE"
+ai_secret_arn   = "arn:aws:secretsmanager:ca-central-1:123456789012:secret:career-compass-ai-REPLACE"
+web_image       = "123456789012.dkr.ecr.ca-central-1.amazonaws.com/career-compass/web:release-1"
+api_image       = "123456789012.dkr.ecr.ca-central-1.amazonaws.com/career-compass/api:release-1"
+ai_image        = "123456789012.dkr.ecr.ca-central-1.amazonaws.com/career-compass/ai:release-1"
+enable_service  = false

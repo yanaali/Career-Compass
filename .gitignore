@@ -6,3 +6,17 @@ dist-ssr
 .env.*
 coverage
 .DS_Store
+.tools/
+backend/target/
+!.env.example
+ai-service/.venv/
+__pycache__/
+.pytest_cache/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+infra/aws/plan.txt
+*.tfvars
+*.tfvars.json
+!*.tfvars.example

@@ -6,9 +6,12 @@ import { useTasks } from "../store/tasks";
 import { usePomodoro } from "../store/pomodoro";
 import { useApplications, Status } from "../store/applications";
 import { formatDate } from "../lib/format";
+import { ApplicationConnection } from "../ui/ApplicationConnection";
+import { DocumentsPanel } from "../ui/DocumentsPanel";
 import { Trash2, Plus, Play, Pause, RotateCcw, CheckCircle2 } from "lucide-react";
 
 export function DashboardPage() {
+  const sessionId = useApplications((state) => state.sessionId);
   return (
     <div className="space-y-6">
       <div>
@@ -21,6 +24,7 @@ export function DashboardPage() {
         <PomodoroPanel />
         <ApplicationsPanel />
       </div>
+      <DocumentsPanel key={sessionId} />
     </div>
   );
 }
@@ -182,7 +186,7 @@ function clamp(n: number, min: number, max: number) {
 }
 
 function ApplicationsPanel() {
-  const { items, add, update, remove } = useApplications();
+  const { items, add, update, remove, busy } = useApplications();
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState<Status>("Interested");
@@ -210,7 +214,8 @@ function ApplicationsPanel() {
         </div>
       </div>
 
-      <div className="pt-3 space-y-2">
+      <ApplicationConnection />
+      <fieldset disabled={busy} className="pt-3 space-y-2">
         <div className="grid grid-cols-2 gap-2">
           <Input placeholder="Company" value={company} onChange={(e) => setCompany(e.target.value)} />
           <Input placeholder="Role" value={role} onChange={(e) => setRole(e.target.value)} />
@@ -233,9 +238,9 @@ function ApplicationsPanel() {
         <Textarea placeholder="Notes (optional)" rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
         <Button
           className="w-full"
-          onClick={() => {
+          onClick={async () => {
             if (!company.trim() || !role.trim()) return;
-            add({
+            const saved = await add({
               company: company.trim(),
               role: role.trim(),
               status,
@@ -243,6 +248,7 @@ function ApplicationsPanel() {
               nextFollowUp: nextFollowUp ? new Date(nextFollowUp).toISOString() : undefined,
               notes: notes.trim() || undefined
             });
+            if (!saved) return;
             setCompany("");
             setRole("");
             setLink("");
@@ -254,7 +260,7 @@ function ApplicationsPanel() {
           <Plus size={16} />
           Add application
         </Button>
-      </div>
+      </fieldset>
 
       <div className="pt-4 space-y-2">
         {items.length === 0 && <div className="text-sm text-slate-500 dark:text-slate-400">No entries yet. Add the next role you’ll apply to.</div>}
@@ -269,6 +275,7 @@ function ApplicationsPanel() {
                   <select
                     className="rounded-lg border border-amber-200 bg-white dark:bg-slate-900 dark:border-slate-700 px-2 py-1"
                     value={it.status}
+                    disabled={busy}
                     onChange={(e) => update(it.id, { status: e.target.value as Status })}
                   >
                     {(["Interested", "Applied", "Interview", "Offer", "Rejected"] as Status[]).map((s) => (
@@ -287,7 +294,7 @@ function ApplicationsPanel() {
                 {it.notes && <div className="pt-2 text-xs text-slate-600 dark:text-slate-300 whitespace-pre-wrap">{it.notes}</div>}
               </div>
 
-              <button className="rounded-xl p-2 hover:bg-amber-100 dark:hover:bg-slate-700" onClick={() => remove(it.id)} aria-label="Delete application">
+              <button disabled={busy} className="rounded-xl p-2 hover:bg-amber-100 dark:hover:bg-slate-700" onClick={() => void remove(it.id)} aria-label="Delete application">
                 <Trash2 size={16} />
               </button>
             </div>

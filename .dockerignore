@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.env*
+.tools
+backend/target
+ai-service/.venv
+**/__pycache__
+**/.terraform
+**/*.tfstate*
+**/*.tfvars
+**/*.tfplan
+infra/aws/plan.txt

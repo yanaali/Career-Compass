@@ -1,0 +1,24 @@
+app:
+  auth-mode: oidc
+server:
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        secure: true
+        http-only: true
+        same-site: lax
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          cognito:
+            provider: cognito
+            client-id: ${OIDC_CLIENT_ID}
+            client-authentication-method: none
+            authorization-grant-type: authorization_code
+            scope: openid,profile,email
+        provider:
+          cognito:
+            issuer-uri: ${OIDC_ISSUER_URI}

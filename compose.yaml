@@ -1,0 +1,84 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: career_compass
+      POSTGRES_USER: career_compass
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - compass-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U career_compass -d career_compass"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/career_compass
+      DATABASE_USER: career_compass
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD in .env}
+      APP_USERNAME: ${APP_USERNAME:-compass}
+      APP_PASSWORD: ${APP_PASSWORD:?Set APP_PASSWORD in .env}
+      LEGACY_OWNER: ${LEGACY_OWNER:-local:compass}
+      S3_BUCKET: career-compass-local
+      AWS_REGION: ca-central-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      S3_ENDPOINT: http://s3:4566
+      S3_PUBLIC_ENDPOINT: http://localhost:4566
+      AI_SERVICE_URL: http://ai:8000
+      AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:?Set AI_SERVICE_TOKEN in .env}
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      s3-init:
+        condition: service_completed_successfully
+  s3:
+    image: localstack/localstack:4.4.0
+    environment:
+      SERVICES: s3
+      AWS_DEFAULT_REGION: ca-central-1
+    ports:
+      - "127.0.0.1:4566:4566"
+    healthcheck:
+      test: ["CMD", "awslocal", "s3api", "list-buckets"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  s3-init:
+    image: localstack/localstack:4.4.0
+    entrypoint: ["/bin/sh", "/init-s3.sh"]
+    environment:
+      S3_ENDPOINT: http://s3:4566
+      AWS_DEFAULT_REGION: ca-central-1
+    volumes:
+      - ./infra/local/init-s3.sh:/init-s3.sh:ro
+    depends_on:
+      s3:
+        condition: service_healthy
+  ai:
+    build: ./ai-service
+    environment:
+      PGHOST: db
+      PGDATABASE: career_compass
+      PGUSER: career_compass
+      PGPASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD in .env}
+      AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:?Set AI_SERVICE_TOKEN in .env}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      S3_BUCKET: career-compass-local
+      S3_ENDPOINT: http://s3:4566
+      AWS_REGION: ca-central-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    depends_on:
+      db:
+        condition: service_healthy
+    # Internal only: the browser calls Spring Boot, never this service.
+volumes:
+  compass-db:

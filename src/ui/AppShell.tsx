@@ -5,8 +5,10 @@ import { cn } from "../lib/format";
 import { AnimatedOutlet } from "./AnimatedOutlet";
 import { useTheme } from "../store/theme";
 import { AiAssistantButton } from "./AiAssistant";
+import { useApplications } from "../store/applications";
 
 export function AppShell() {
+  React.useEffect(() => { void useApplications.getState().initializeAuth(); }, []);
   return (
     <div className="min-h-screen bg-gradient-cozy dark:bg-gradient-cozy-dark">
       <header className="sticky top-0 z-20 border-b border-amber-100 bg-white/70 backdrop-blur dark:bg-slate-950/90 dark:border-slate-700">
